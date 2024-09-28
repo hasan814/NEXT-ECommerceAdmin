@@ -1,15 +1,24 @@
-import { UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+"use client";
+
+import { useStoreModal } from "@/hooks/use-store-modal";
+import { useAuth } from "@clerk/nextjs";
+import { useEffect } from "react";
 
 const SetupPage = () => {
-  const { userId } = auth();
+  // =============== Zustand =============
+  const onOpen = useStoreModal((state) => state.onOpen);
+  const isOpen = useStoreModal((state) => state.isOpen);
 
-  if (userId)
-    return (
-      <div>
-        <UserButton />
-      </div>
-    );
+  // =============== Clerk =============
+  const { userId } = useAuth();
+
+  // =============== Effect =============
+  useEffect(() => {
+    if (!isOpen) onOpen();
+  }, [isOpen, onOpen]);
+
+  // =============== Rendering =============
+  if (userId) return <div className="p-4"></div>;
 };
 
 export default SetupPage;

@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/.middleware.ts"
+    "src/.middleware.ts",
+    "src/hooks/use-store.modal.tsz"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,7 +1,10 @@
 import { ClerkProvider, SignInButton } from "@clerk/nextjs";
+import { ModalProvider } from "@/providers/modal-provider";
 import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 
 import localFont from "next/font/local";
+
 import "./globals.css";
 
 const geistSans = localFont({
@@ -25,13 +28,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // ================= Clerk ==============
+  const { userId } = auth();
+
+  // ================= Rendering ==============
   return (
     <ClerkProvider>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <SignInButton />
+          <ModalProvider />
+          {!userId && <SignInButton />}
           {children}
         </body>
       </html>
